@@ -1,12 +1,39 @@
 Quase sempre quando formos "ler" um arquivo csv, vamos usar o pandas. É prático e bem eficiente.
 
-Funcionamento
-Forma mais básica: (muitas vezes não usaremos a forma mais básica)
-dataframe = pd.read_csv(arquivo_com_extensao)
-Vamos ler um arquivo real, com a Base de Dados de Vendas da Empresa "Contoso"
-
 import pandas as pd
 
-vendas_df= pd.read_csv(Contoso - Cadastro Produtos.csv',sep = ';')
+############################ IMPORTANDO DF
+df_vendas=pd.read_csv(r"C:\Users\gilma\OneDrive\Área de Trabalho\Pandas_CSV\Contoso - Vendas - 2017.csv", sep=(";"),encoding = 'cp1252')
 
-vendas_df
+df_lojas = pd.read_csv(r"C:\Users\gilma\OneDrive\Área de Trabalho\Pandas_CSV\Contoso - Lojas.csv", sep=(";"),encoding = 'cp1252')
+
+df_produtos = pd.read_csv(r"C:\Users\gilma\OneDrive\Área de Trabalho\Pandas_CSV\Contoso - Cadastro Produtos.csv", sep=(";"),encoding = 'cp1252')
+
+df_clientes =  pd.read_csv(r"C:\Users\gilma\OneDrive\Área de Trabalho\Pandas_CSV\Contoso - Clientes.csv", sep=(";"),encoding = 'cp1252')
+                           
+display(df_vendas)  
+display(df_produtos)  
+display(df_clientes)  
+display(df_lojas)  
+
+######################## RENOMEANDO COLUNAS
+df_lojas = df_lojas.rename(columns={'ÿID Loja':'ID Loja'})
+df_produtos = df_produtos.rename(columns={'ÿNome do Produto':'Nome do Produto'})
+df_clientes = df_clientes.rename(columns={'ÿID Cliente':'ID Cliente'})
+
+################## EXIBINDO  DF
+display(df_lojas)
+display(df_clientes)
+display(df_produtos)
+
+################# EXTRAINDO COLUNAS
+df_clientes = df_clientes[["ID Cliente","E-mail"]]
+df_produtos = df_produtos [["ID Produto","Nome do Produto"]]
+df_lojas = df_lojas[["ID Loja","Nome da Loja"]]
+
+####################### MESCLANDO DF
+df_vendas = df_vendas.merge(df_clientes, on="ID Cliente")
+df_vendas =  df_vendas.merge(df_produtos, on="ID Produto")
+df_vendas =  df_vendas.merge(df_lojas, on= "ID Loja")
+
+display(df_vendas)
